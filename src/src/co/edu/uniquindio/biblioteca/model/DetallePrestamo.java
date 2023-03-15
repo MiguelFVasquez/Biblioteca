@@ -57,7 +57,11 @@ public class DetallePrestamo {
     }
     
 
-    
+    public int cantidadDeLibrosPrestados(){
+        return getCantidad();
+    }
+
+
     @Override
     public String toString() {
         return "DetallePrestamo{" + "codigo=" + codigo + ", subTotal=" + subTotal + ", cantidad=" + cantidad + '}';

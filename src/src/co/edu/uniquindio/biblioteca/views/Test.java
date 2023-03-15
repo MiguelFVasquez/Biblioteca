@@ -1,6 +1,7 @@
 package src.co.edu.uniquindio.biblioteca.views;
 
 import java.util.ArrayList;
+//, el identificador, el nombre, el color, el área y el perímetro. 
 
 import javax.swing.JOptionPane;
 
@@ -11,6 +12,7 @@ import src.co.edu.uniquindio.biblioteca.model.Estudiante;
 import src.co.edu.uniquindio.biblioteca.model.Funciones;
 import src.co.edu.uniquindio.biblioteca.model.Libro;
 import src.co.edu.uniquindio.biblioteca.model.Prestamo;
+import src.co.edu.uniquindio.biblioteca.model.tipoLibros;
 
 public class Test {
 
@@ -25,10 +27,10 @@ public class Test {
 
 
 //Creacion de libros
-		Libro libro1= new Libro("Cien años de soledad", "Gabriel Garcia Marquez", "2131");
-		Libro libro2= new Libro("El ladron del rayo", "Rick Riordan", "1012");
-		Libro libro3= new Libro("El mar de los monstruos", "Rick Riordan", "3102");
-		Libro libro4= new Libro("La maldicion del titan", "Rick Riordan", "2345");
+		Libro libro1= new Libro("Cien años de soledad", "Gabriel Garcia Marquez", "2131", tipoLibros.MONOGRAFIAS);
+		Libro libro2= new Libro("El ladron del rayo", "Rick Riordan", "1012",tipoLibros.BIOGRAFIAS);
+		Libro libro3= new Libro("El mar de los monstruos", "Rick Riordan", "3102",tipoLibros.BIOGRAFIAS);
+		Libro libro4= new Libro("La maldicion del titan", "Rick Riordan", "2345",tipoLibros.CIENTIFICOS);
 		biblioteca.getListaLibros().add(libro1);
 		biblioteca.getListaLibros().add(libro2);
 		biblioteca.getListaLibros().add(libro3);
@@ -36,29 +38,42 @@ public class Test {
 //Creacion de prestamos
 		Prestamo prestamo= new Prestamo("11-03-23",10.000,10,"0001",libro1);
 		Prestamo prestamo2= new Prestamo("12-02-23",30.000,30,"0002",libro2);
+		Prestamo prestamo3= new Prestamo("10-01-23",10.000,5,"0003",libro3);
+		Prestamo prestamo4= new Prestamo("01-26-23",30.000,15,"0004",libro4);
 		biblioteca.getListaPrestamos().add(prestamo);
 		biblioteca.getListaPrestamos().add(prestamo2);
+		biblioteca.getListaPrestamos().add(prestamo3);
+		biblioteca.getListaPrestamos().add(prestamo4);
+
 //Creacion de detalles
 		DetallePrestamo detalle1= new DetallePrestamo("0001",5.000,1,libro1);
-		DetallePrestamo detalle2= new DetallePrestamo("0002",10.000,2,libro2);
+		DetallePrestamo detalle2= new DetallePrestamo("0002",10.000,3,libro2);
+		DetallePrestamo detalle3= new DetallePrestamo("0003",12.000,1,libro3);
+		DetallePrestamo detalle4= new DetallePrestamo("0004",20.000,2,libro4);
 		Prestamo.getListaDetallePrestamos().add(detalle1);
 		Prestamo.getListaDetallePrestamos().add(detalle2);
+		Prestamo.getListaDetallePrestamos().add(detalle3);
+		Prestamo.getListaDetallePrestamos().add(detalle4);
 
 		ArrayList<DetallePrestamo> detallePrestamo1= new ArrayList<>();
 		detallePrestamo1.add(detalle1);
 		detallePrestamo1.add(detalle2);
 
+		ArrayList<DetallePrestamo> detallePrestamo2= new ArrayList<>();
+		detallePrestamo2.add(detalle3);
+		detallePrestamo2.add(detalle4);
+
 		prestamo.setListaDetallePrestamos(detallePrestamo1);
-		
+		prestamo2.setListaDetallePrestamos(detallePrestamo2);
 
 //Creacion de la lista de prestamos para cada empleado
 		ArrayList<Prestamo> prestamoEmpleado1= new ArrayList<>();
 		prestamoEmpleado1.add(prestamo);
 		prestamoEmpleado1.add(prestamo2);
 
-		//ArrayList<Prestamo> prestamoEmpleado2= new ArrayList<>();
-		//prestamoEmpleado2.add(prestamo);
-		//prestamoEmpleado2.add(prestamo2);
+		ArrayList<Prestamo> prestamoEmpleado2= new ArrayList<>();
+		prestamoEmpleado2.add(prestamo3);
+		prestamoEmpleado2.add(prestamo4);
 		
 //Creacion de empleados
 		Empleado empleado1= new Empleado("Santiago", 1.300000, "Tendero");
@@ -67,7 +82,7 @@ public class Test {
 		biblioteca.getListaEmpleados().add(empleado2);
 
 		empleado1.setListaPrestamos(prestamoEmpleado1);
-		//empleado2.setListaPrestamos(prestamoEmpleado2);
+		empleado2.setListaPrestamos(prestamoEmpleado2);
 
 		int opc;
 		String resultado= "";
@@ -82,7 +97,9 @@ public class Test {
 				7. Mostrar libros
 				8. Mostar empleado de acuerdo al prestamo de un libro por isbn
 				9. Mostrar Prestamos
-				10. Salir
+				10. Mostrar prestamo con tiempo de entrega superior a  dias y menor a  dias 
+				11. Tipo de libro que mas se presta
+				12. Salir
 				""");
 
 			switch(opc){
@@ -168,12 +185,6 @@ public class Test {
 					JOptionPane.showMessageDialog(null, biblioteca.obtenerEmpleado(busquedaISBN).toString());
 				}
 				
-				/* 
-				String nombreEmpleado= Funciones.leerCadena("Nombre del empleado que quiere buscar");
-				JOptionPane.showMessageDialog(null, biblioteca.obtenerEmple(nombreEmpleado).toString());
-				*/
-
-				//JOptionPane.showMessageDialog(null, empleado2.getListaPrestamos().toString());
 				break;
 				
 				case 9:
@@ -186,6 +197,27 @@ public class Test {
 				break;
 
 				case 10:
+				int cantiDias= Funciones.leerNumero("El prestamo que quiere buscar tiene que tener un tiempo de entrega superior a: ");
+				int cantiDias2= Funciones.leerNumero("El prestamo que quiere buscar tiene que tener un tiempo de entrega inferior a: ");
+				ArrayList<Prestamo> prestamosFechas= new ArrayList<>();
+				prestamosFechas= biblioteca.obtenerPrestamosEntreTiempo(cantiDias, cantiDias2);
+				if(prestamosFechas.isEmpty()){
+					JOptionPane.showMessageDialog(null, "No hay prestamos con tiempos de entrega en el rango entregado");
+				}else{
+					JOptionPane.showMessageDialog(null,"\n" + prestamosFechas);
+				}
+
+				break;
+				case 11:
+
+				if(biblioteca.libroMasVendido()== null){
+					JOptionPane.showMessageDialog(null, "No hay nada que mostrar,vaya y revise esa logica");
+				}else{
+					JOptionPane.showMessageDialog(null, biblioteca.libroMasVendido());
+				}
+
+				break;
+				case 12:
 				JOptionPane.showMessageDialog(null, "bye");
 				break;
 				default:
@@ -195,7 +227,7 @@ public class Test {
 
 
 
-		}while(opc!=10);
+		}while(opc!=12);
 
 	}
 

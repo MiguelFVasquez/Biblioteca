@@ -113,10 +113,29 @@ public class Prestamo {
 
         return cumple;
     }
-    
+
+
+    public boolean verificarFechas(int fecha1, int fecha2){
+        boolean cumple= false;
+
+        if(getTiempoEntregea()>= fecha1 && getTiempoEntregea()<=fecha2){
+            cumple=true;
+        }
+        return cumple;
+    }
+
+    public int unidadesPrestadas(){
+        int cant=0;
+        for (DetallePrestamo detalleAUX : listaDetallePrestamos) {
+            cant= detalleAUX.cantidadDeLibrosPrestados();
+        }
+        return cant;
+    }
+
+
     @Override
     public String toString() {
-        return "Prestamo{" + "fecha=" + fecha + ", total=" + total + ", tiempoEntregea=" + tiempoEntregea + ", codigo=" + codigo + '}';
+        return "Prestamo: " + "Fecha: " + fecha + "\nTotal=" + total + "\nTiempo de entrega: " + tiempoEntregea + "\nCodigo: " + codigo + "\nLibro: " + libro.getTitulo();
     }
     
     

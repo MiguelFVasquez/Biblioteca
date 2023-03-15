@@ -3,6 +3,7 @@ package src.co.edu.uniquindio.biblioteca.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 
 
@@ -17,6 +18,7 @@ public class Biblioteca {
 	private ArrayList<Libro> listaLibros;
 	private ArrayList<Prestamo> listaPrestamos;
 	private ArrayList<Empleado> listaEmpleados;
+
 	public Biblioteca() {
 	
 	}
@@ -252,37 +254,47 @@ public class Biblioteca {
 		return empleadoEncontrado;
 	}
 
-/*		for (Empleado empleadoAUX : listaEmpleados) {
-			prestamoEmpleado= empleadoAUX.getListaPrestamos();
-			for (Prestamo prestamo : prestamoEmpleado) {
-				if(prestamo.verificarISBN(isbn)){
-					empleadoEncontrado= empleadoAUX ;
-				}
+	public ArrayList<Prestamo> obtenerPrestamosEntreTiempo(int fecha1, int fecha2){
+		ArrayList<Prestamo> prestamosTiempo = new ArrayList<>();
+
+		for (Prestamo prestamoAUX : listaPrestamos) {
+			if(prestamoAUX.verificarFechas(fecha1, fecha2)){
+				prestamosTiempo.add(prestamoAUX);
 			}
 		}
 
-		for (Prestamo prestamoAux : listaPrestamos) {
-			if(prestamoAux.verificarISBN(isbn)){
-				for (Empleado empleadoAux : listaEmpleados) {
-					if(empleadoAux.getListaPrestamos().get(prestamoAux)){
-						empleadoEncontrado= empleadoAux;
-					}
-				}
+		return prestamosTiempo;
+	}
+
+
+
+
+	public tipoLibros libroMasVendido(){
+		
+		HashMap<tipoLibros, Integer> unidadesPrestadasPorTipo = new HashMap<>();
+		    // Recorrer la lista de préstamos y acumular las unidades prestadas por tipo de libro
+
+		for (Prestamo prestamo : listaPrestamos) {
+			tipoLibros tipoLibro = prestamo.getLibro().tipoLibro();
+			int unidadesPrestadas = prestamo.unidadesPrestadas();
+	
+			int unidadesRegistradas = unidadesPrestadasPorTipo.getOrDefault(tipoLibro, 0);
+			unidadesPrestadasPorTipo.put(tipoLibro, unidadesRegistradas + unidadesPrestadas);
+		}
+
+		tipoLibros tipoMasPrestado= null;
+		int unidadesMasPrestadas= 0;
+		for (tipoLibros tipo : unidadesPrestadasPorTipo.keySet()) {
+			int unidadesPrestadas = unidadesPrestadasPorTipo.get(tipo);
+			if(unidadesPrestadas > unidadesMasPrestadas){
+				unidadesMasPrestadas = unidadesPrestadas;
+				tipoMasPrestado= tipo;
 			}
 		}
 
-		for (int i = 0; i < listaPrestamos.size(); i++) {
-			if(listaPrestamos.get(i).verificarISBN(isbn)){
-				for(Empleado empleadoAux: listaEmpleados){
-					if(empleadoAux.getListaPrestamos().get(i).equals(listaPrestamos.get(i))){
 
-					}
-				}
-				break; 
-			}
-		}
-
-	 */    
+		return tipoMasPrestado;
+	}
 
 	
 }
