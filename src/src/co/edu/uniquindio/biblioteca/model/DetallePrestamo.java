@@ -62,6 +62,36 @@ public class DetallePrestamo {
     }
 
 
+    public boolean cumpleLibro(String titulo, int limiteInferior, int limiteSuperior) {
+		
+		boolean cumpleNombre = false;
+		boolean cumpleCantidad = false;
+		
+		cumpleCantidad = verificarRango(limiteInferior,limiteSuperior);
+		cumpleNombre = verificarNombre(titulo);
+		
+		if(cumpleCantidad && cumpleNombre){
+			return true;
+		}
+		return false;
+	}
+
+
+    private boolean verificarNombre(String titulo) {
+		return getLibro().getTitulo().equals(titulo);
+	}
+
+    private boolean verificarRango(int limiteInferior, int limiteSuperior) {
+		if(cantidad >= limiteInferior && cantidad < limiteSuperior) return true;
+		return false;
+	}
+
+    public boolean cumpleTipo(tipoLibros tipo) {
+		
+		return getLibro().getTipo() == tipo;
+	}
+
+
     @Override
     public String toString() {
         return "DetallePrestamo{" + "codigo=" + codigo + ", subTotal=" + subTotal + ", cantidad=" + cantidad + '}';

@@ -3,7 +3,6 @@ package src.co.edu.uniquindio.biblioteca.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 
 
@@ -240,61 +239,61 @@ public class Biblioteca {
 		return prestamosEncontrados;
 	}
 
-	public Empleado obtenerEmpleado( String isbn){
+	public Empleado obtenerEmpleado( String isbn) {
 		Empleado empleadoEncontrado = null;
 		for (Empleado empleadoAux : listaEmpleados) {
 			if(empleadoAux.verificarPrestamo(isbn)){
 				empleadoEncontrado= empleadoAux;
 			}
 		}
-
-
-
-
 		return empleadoEncontrado;
 	}
 
-	public ArrayList<Prestamo> obtenerPrestamosEntreTiempo(int fecha1, int fecha2){
-		ArrayList<Prestamo> prestamosTiempo = new ArrayList<>();
-
-		for (Prestamo prestamoAUX : listaPrestamos) {
-			if(prestamoAUX.verificarFechas(fecha1, fecha2)){
-				prestamosTiempo.add(prestamoAUX);
-			}
-		}
-
-		return prestamosTiempo;
-	}
-
-
-
-
-	public tipoLibros libroMasVendido(){
+	public Prestamo devolverPrestamoLibro(String titulo,int limiteInferior,int limiteSuperior,int aniosExperiencia){
 		
-		HashMap<tipoLibros, Integer> unidadesPrestadasPorTipo = new HashMap<>();
-		    // Recorrer la lista de préstamos y acumular las unidades prestadas por tipo de libro
-
+		Prestamo prestamoEncontrado = null;
 		for (Prestamo prestamo : listaPrestamos) {
-			tipoLibros tipoLibro = prestamo.getLibro().tipoLibro();
-			int unidadesPrestadas = prestamo.unidadesPrestadas();
-	
-			int unidadesRegistradas = unidadesPrestadasPorTipo.getOrDefault(tipoLibro, 0);
-			unidadesPrestadasPorTipo.put(tipoLibro, unidadesRegistradas + unidadesPrestadas);
-		}
-
-		tipoLibros tipoMasPrestado= null;
-		int unidadesMasPrestadas= 0;
-		for (tipoLibros tipo : unidadesPrestadasPorTipo.keySet()) {
-			int unidadesPrestadas = unidadesPrestadasPorTipo.get(tipo);
-			if(unidadesPrestadas > unidadesMasPrestadas){
-				unidadesMasPrestadas = unidadesPrestadas;
-				tipoMasPrestado= tipo;
+			if(prestamo.cumpleLibro(titulo,limiteInferior,limiteSuperior,aniosExperiencia)){
+				prestamoEncontrado = prestamo;
+				return prestamoEncontrado;
 			}
 		}
-
-
-		return tipoMasPrestado;
+		return prestamoEncontrado;
 	}
+
+
+
+
+	public tipoLibros libroMasPrestado(){
+		tipoLibros tipoMasPrestado= tipoLibros.BIOGRAFIAS;
+
+		int totalPrestadoBiografia= obtenerTotalPrestado(tipoLibros.BIOGRAFIAS);
+		int totalPrestadoCientifico= obtenerTotalPrestado(tipoLibros.CIENTIFICOS);
+		int totalPrestadoMonografia= obtenerTotalPrestado(tipoLibros.MONOGRAFIAS);
+
+		if(totalPrestadoBiografia > totalPrestadoCientifico && totalPrestadoBiografia> totalPrestadoMonografia){
+			tipoMasPrestado= tipoLibros.BIOGRAFIAS;
+		}else{
+			if(totalPrestadoCientifico > totalPrestadoMonografia){
+				tipoMasPrestado= tipoLibros.CIENTIFICOS;
+			}else{
+				tipoMasPrestado= tipoLibros.MONOGRAFIAS;
+			}
+		}
+		return tipoMasPrestado;
+
+	}
+
+		private int obtenerTotalPrestado(tipoLibros tipo) {
+		
+		int cantidad = 0;
+		for (Prestamo prestamo : listaPrestamos) {
+			cantidad += prestamo.obtenerCantidadTipo(tipo);
+		}
+		
+		return cantidad;
+	}
+
 
 	
 }

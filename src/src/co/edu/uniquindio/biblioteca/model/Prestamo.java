@@ -7,7 +7,7 @@ public class Prestamo {
     
     private String fecha;
     private double total;
-    private Integer tiempoEntregea;
+    private Integer tiempoEntrega;
     private String codigo;
     private Libro libro;
     private static ArrayList<DetallePrestamo> listaDetallePrestamos;
@@ -15,10 +15,10 @@ public class Prestamo {
     public Prestamo() {
     }
 
-    public Prestamo(String fecha, double total, Integer tiempoEntregea, String codigo, Libro libro) {
+    public Prestamo(String fecha, double total, Integer tiempoEntrega, String codigo, Libro libro) {
         this.fecha = fecha;
         this.total = total;
-        this.tiempoEntregea = tiempoEntregea;
+        this.tiempoEntrega = tiempoEntrega;
         this.codigo = codigo;
         this.libro = libro;
         Prestamo.listaDetallePrestamos = new ArrayList<>();
@@ -42,12 +42,12 @@ public class Prestamo {
         this.total = total;
     }
 
-    public Integer getTiempoEntregea() {
-        return tiempoEntregea;
+    public Integer getTiempoEntrega() {
+        return tiempoEntrega;
     }
 
-    public void setTiempoEntregea(Integer tiempoEntregea) {
-        this.tiempoEntregea = tiempoEntregea;
+    public void setTiempoEntrega(Integer tiempoEntregea) {
+        this.tiempoEntrega = tiempoEntregea;
     }
 
     public String getCodigo() {
@@ -118,7 +118,7 @@ public class Prestamo {
     public boolean verificarFechas(int fecha1, int fecha2){
         boolean cumple= false;
 
-        if(getTiempoEntregea()>= fecha1 && getTiempoEntregea()<=fecha2){
+        if(getTiempoEntrega()>= fecha1 && getTiempoEntrega()<=fecha2){
             cumple=true;
         }
         return cumple;
@@ -133,9 +133,34 @@ public class Prestamo {
     }
 
 
+    public boolean cumpleLibro(String titulo, int limiteInferior, int limiteSuperior, int aniosExperiencia) {
+	
+        for (DetallePrestamo detallePrestamo : listaDetallePrestamos) {
+            if(detallePrestamo.cumpleLibro(titulo,limiteInferior,limiteSuperior)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+
+
+    public int obtenerCantidadTipo(tipoLibros tipo) {
+        int cantidad = 0;
+        for (DetallePrestamo detallePrestamo : listaDetallePrestamos) {
+            if(detallePrestamo.cumpleTipo(tipo)){
+                cantidad += detallePrestamo.getCantidad();
+            }
+        }
+        return cantidad;
+    }
+    
+
+
     @Override
     public String toString() {
-        return "Prestamo: " + "Fecha: " + fecha + "\nTotal=" + total + "\nTiempo de entrega: " + tiempoEntregea + "\nCodigo: " + codigo + "\nLibro: " + libro.getTitulo();
+        return "Prestamo: " + "Fecha: " + fecha + "\nTotal=" + total + "\nTiempo de entrega: " + tiempoEntrega + "\nCodigo: " + codigo + "\nLibro: " + libro.getTitulo();
     }
     
     

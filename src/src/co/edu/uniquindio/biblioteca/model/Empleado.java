@@ -9,6 +9,7 @@ public class Empleado {
     private String nombre;
     private Double pago;
     private String cargo;
+    private int aniosExperiencia;
     private ArrayList<Prestamo> listaPrestamos;
     
     
@@ -56,7 +57,15 @@ public class Empleado {
         this.listaPrestamos = listaPrestamos;
     }
     
-    
+        
+    public int getAniosExperiencia() {
+        return aniosExperiencia;
+    }
+
+    public void setAniosExperiencia(int aniosExperiencia) {
+        this.aniosExperiencia = aniosExperiencia;
+    }
+
     public boolean verificarPrestamo(String isbn){
         boolean verificado= false;
         for (Prestamo prestamoAux : listaPrestamos) {
