@@ -76,6 +76,28 @@ public class Empleado {
         }
         return verificado;
     }
+    /**
+     * 
+     * @return
+     */
+    public boolean verificarNombre(){
+        boolean cumple= false; 
+        String nombreEmpleado= this.getNombre().toLowerCase();
+        int contador= 0;
+        for (int i = 0; i < nombreEmpleado.length(); i++) {
+            char caracter = nombreEmpleado.charAt(i);
+            if(caracter == 'a' || caracter == 'e' || caracter == 'i' || caracter == 'o' || caracter == 'u' ){
+                contador++;
+            }
+        }
+
+        if(contador>=3){
+            cumple= true;
+        }
+
+        return cumple;
+    }
+
 
     @Override
     public String toString() {

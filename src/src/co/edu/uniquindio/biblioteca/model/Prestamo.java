@@ -156,7 +156,50 @@ public class Prestamo {
         return cantidad;
     }
     
+    /**
+     * 
+     * @param tipo
+     * @return
+     */
+    public boolean verificarTipoTotal(tipoLibros tipo){
+        boolean cumple= false;
+        if(verificarTipo(tipo) && verificarTotal()){
+            cumple= true;
+        }
+        return cumple;
+    }
 
+    public boolean verificarTipo(tipoLibros tipo){
+        boolean cumple= false;
+        for (DetallePrestamo detallePrestamo : listaDetallePrestamos) {
+            if(detallePrestamo.cumpleTipo(tipo)){
+                cumple= true;
+            }
+        }
+
+        return cumple;
+    }
+    public boolean verificarTotal(){
+        return this.getTotal()>10.000 && this.getTotal()<20.000;
+    }
+    /**
+     * 
+     * @param autor
+     * @param cant
+     * @return
+     */
+    public boolean cumpleCantidadAutor(String autor, int cant){
+        boolean cumple= false;
+
+        for (DetallePrestamo detallePrestamo : listaDetallePrestamos) {
+            if(detallePrestamo.verificarAutorCantidad(autor,cant)){
+                cumple= true;
+            }
+        }
+
+
+        return cumple;
+    }
 
     @Override
     public String toString() {
@@ -166,5 +209,7 @@ public class Prestamo {
     
     
     
+
+
     
 }

@@ -293,7 +293,77 @@ public class Biblioteca {
 		
 		return cantidad;
 	}
-
-
+//Parcial----------------------------------------------------------------------
+//punto 1
+/**
+ *S recorre la lista de estudiantes para sacar los prestamos que ha realizado y añadirlos en una nueva lista
+ * Esa lista se recorre para verificar las condiciones de tipo y total
+ * luego, en una nueva lista se reocrre y verifica que sea del tipo deseado
+ * 
+ * @param identificacion
+ * @param programa
+ * @return 
+ */
+	public ArrayList<Libro> librosPrestadosporEstudiante(String identificacion, String programa){
+		ArrayList<Libro> librosPrestados = new ArrayList<>();
+		ArrayList<Libro> librosCientificosPrestados = new ArrayList<>();
+		ArrayList<Prestamo> prestamosEstudiante= new ArrayList<>();
+		for (Estudiante estudianteAux : listaEstudiantes) {
+			if(estudianteAux.verificarIdenPrograma(identificacion, programa) == true){
+				prestamosEstudiante = estudianteAux.getListaPrestamos();
+		
+			}
+			
+		}
 	
+		for (Prestamo prestamoEstudianteAux : prestamosEstudiante) {
+			if(prestamoEstudianteAux.verificarTipoTotal(tipoLibros.CIENTIFICOS)){
+				librosPrestados.add(prestamoEstudianteAux.getLibro());
+			}
+		}
+
+		for (Libro libroAux : librosPrestados) {
+			if(libroAux.verificarTipo(tipoLibros.CIENTIFICOS)){
+				librosCientificosPrestados.add(libroAux);
+			}
+		}
+
+		return librosCientificosPrestados;
+	}
+//Fin del punto 1
+
+//Inicio punto 2
+
+/**
+ * Se recorre la lista de empleados, se verifica su nombre segun las condiciones, si cumple se sacan los prestamos que ha realizado en un lista 
+ * Esa lista se recorre para verificar las condiciones del autor y la cantidad
+ * @param nombreAutor
+ * @param cantidad
+ * @return prestamosEmpleadosVocal
+ */
+	public ArrayList<Prestamo> prestamosEmpleadosVocal(String nombreAutor, int cantidad){
+		ArrayList<Prestamo> prestamosEmpleadosVocal= new ArrayList<>();
+		ArrayList<Prestamo> prestamosEmpleados= new ArrayList<>();
+
+		for (Empleado empleadoAux : listaEmpleados) {
+			if(empleadoAux.verificarNombre()){
+				prestamosEmpleados= empleadoAux.getListaPrestamos();
+			}
+		}
+
+		for (Prestamo prestamoAux : prestamosEmpleados) {
+			if(prestamoAux.cumpleCantidadAutor(nombreAutor, cantidad)){
+				prestamosEmpleadosVocal.add(prestamoAux);
+			}
+		}
+
+		return prestamosEmpleadosVocal;
+	}
+
+
+
+
+
+
 }
+

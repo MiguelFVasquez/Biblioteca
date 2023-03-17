@@ -40,8 +40,8 @@ public class Test {
 		biblioteca.getListaLibros().add(libro3);
 		biblioteca.getListaLibros().add(libro4);
 		//Creacion de prestamos
-		Prestamo prestamo= new Prestamo("11-03-23",10.000,10,"0001",libro1);
-		Prestamo prestamo2= new Prestamo("12-02-23",30.000,30,"0002",libro2);
+		Prestamo prestamo= new Prestamo("11-03-23",12.000,10,"0001",libro1);
+		Prestamo prestamo2= new Prestamo("12-02-23",15.000,30,"0002",libro2);
 		biblioteca.getListaPrestamos().add(prestamo);
 		biblioteca.getListaPrestamos().add(prestamo2);
 		//Creacion de detalles
@@ -74,6 +74,21 @@ public class Test {
 
 		empleado1.setListaPrestamos(prestamoEmpleado1);
 		//empleado2.setListaPrestamos(prestamoEmpleado2);
+			
+	//Se crea el estudiante para realizar las pruebas
+		String resultado2= "";
+		try {
+			resultado2= biblioteca.crearEstudiante("Santiago", "Florez", 18, "Sistemas", "activo", "12345");
+		} catch (Exception e) {
+			resultado2= e.getMessage();
+		}
+		JOptionPane.showMessageDialog(null, resultado2);
+		
+		for (Estudiante estudianteNuevo : biblioteca.getListaEstudiantes()) {
+			estudianteNuevo.setListaPrestamos(prestamoEmpleado1);
+		}
+
+
 
 		int opc;
 		String resultado= "";
@@ -90,7 +105,9 @@ public class Test {
 				9. Mostrar Prestamos
 				10. Mostrar prestamo con tiempo de entrega superior a  dias y menor a  dias 
 				11. Tipo de libro que mas se presta
-				12. Salir
+				12. Libros prestado por el estudiante(punto número uno del parcial)
+				13. Prestamos realizados (punto número dos del parcial)
+				14. Salir
 				""");
 
 			switch(opc){
@@ -206,7 +223,29 @@ public class Test {
 				}
 
 				break;
+
 				case 12:
+				String identificacionPres= Funciones.leerCadena("Identificacion del estudiante");
+				String programaPres = Funciones.leerCadena("Programa del estudiante");
+				if(biblioteca.librosPrestadosporEstudiante(identificacionPres, programaPres).isEmpty() ) {
+					JOptionPane.showMessageDialog(null, "No hay libros del tipo asignados al estudiante");
+				}else{
+					JOptionPane.showMessageDialog(null, biblioteca.librosPrestadosporEstudiante(identificacionPres, programaPres).toString());
+				}
+
+				break;
+				case 13:
+				String nombreAutor= "Gabriel Garcia Marquez";
+				int cantidad= 10;
+				if(biblioteca.prestamosEmpleadosVocal(nombreAutor, cantidad).isEmpty()){
+					JOptionPane.showMessageDialog(null, "No hay nada que mostrar");
+				}else{
+					JOptionPane.showMessageDialog(null, biblioteca.prestamosEmpleadosVocal(nombreAutor, cantidad));
+				}
+
+
+				break;
+				case 14:
 				JOptionPane.showMessageDialog(null, "bye");
 				break;
 				default:
@@ -216,7 +255,8 @@ public class Test {
 
 
 
-		}while(opc!=12);
+		}while(opc!=14
+		);
 
 	}
 

@@ -62,7 +62,11 @@ public class Libro {
         return getAutor().equals(autor);
     }
 
-
+    /**
+     * Verifica si el tipo es igual
+     * @param tipo
+     * @return true si es igual
+     */
     public boolean verificarTipo(tipoLibros tipo){
         boolean cumple= false;
         if(this.getTipo().equals(tipo)){
@@ -73,7 +77,7 @@ public class Libro {
     public tipoLibros tipoLibro(){
         return getTipo();
     }
-
+    
     @Override
     public String toString() {
         return "Titulo: " + titulo + ", Autor: " + autor  + ", Codigo ISBN: "+ isbn + ", Tipo de libro: " + tipo;

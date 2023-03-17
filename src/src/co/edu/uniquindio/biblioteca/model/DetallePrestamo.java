@@ -87,9 +87,30 @@ public class DetallePrestamo {
 	}
 
     public boolean cumpleTipo(tipoLibros tipo) {
-		
-		return getLibro().getTipo() == tipo;
+		return getLibro().getTipo() == (tipo);
 	}
+
+    public boolean verificarAutor(String autor){
+        return getLibro().verificarAutor(autor);
+    }
+
+    public boolean verificarCantidad(int cantidad){
+        return this.getCantidad()>=cantidad;
+    }
+    
+    /**
+     * 
+     * @param autor
+     * @param cantidad
+     * @return
+     */
+    public boolean verificarAutorCantidad(String autor, int cantidad){
+        boolean cumple= false;
+        if( verificarAutor(autor) && verificarCantidad(cantidad)){
+            cumple= true;
+        }
+        return cumple;
+    }
 
 
     @Override

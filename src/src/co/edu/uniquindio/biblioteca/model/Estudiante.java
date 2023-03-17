@@ -89,20 +89,51 @@ public class Estudiante {
 		this.identificacion = identificacion;
 	}
 
-        public ArrayList<Prestamo> getListaPrestamos() {
-            return listaPrestamos;
-        }
+	public ArrayList<Prestamo> getListaPrestamos() {
+		return listaPrestamos;
+	}
 
-        public void setListaPrestamos(ArrayList<Prestamo> listaPrestamos) {
-            this.listaPrestamos = listaPrestamos;
-        }
+	public void setListaPrestamos(ArrayList<Prestamo> listaPrestamos) {
+		this.listaPrestamos = listaPrestamos;
+	}
+	
+	
+	public boolean verificarEdad(int edad){
+		return getEdad() >=edad;
+	}
         
-        
-        public boolean verificarEdad(int edad){
-            return getEdad() >=edad;
-        }
-        
-        
+	/**
+	 * 
+	 * @param identificacion
+	 * @return
+	 */
+	public boolean verificarIdentificacion(String identificacion){
+		return this.getIdentificacion().equals(identificacion);
+	}
+	/**
+	 * 
+	 * @param programa
+	 * @return
+	 */
+	public boolean verificarPrograma(String programa){
+		return this.getPrograma().equals(programa);
+	}
+
+	/**
+	 * 
+	 * @param identificacion
+	 * @param programa
+	 * @return
+	 */
+	public boolean verificarIdenPrograma(String identificacion, String programa){
+		boolean cumple= false;
+		if(verificarIdentificacion(identificacion) && verificarPrograma(programa) == true){
+			cumple= true;
+		}
+		return cumple;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Nombre: " + nombres + " "+apellidos + "\n Edad: " + edad + "\nPrograma: "
